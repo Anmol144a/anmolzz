@@ -74,7 +74,7 @@
       position: fixed;
       width: 40px;
       height: 40px;
-      background: url('https://raw.githubusercontent.com/Anmol144a/main/assets/custom_cursor.png') no-repeat center center;
+      background: url('assets/images/custom_cursor.png') no-repeat center center;
       background-size: contain;
       pointer-events: none;
       z-index: 9999;
@@ -452,25 +452,25 @@
     <div id="profile-block" role="region" aria-label="Profile Card">
       <div class="profile-header">
         <div class="profile-container">
-          <img src="https://via.placeholder.com/160?text=Anime+PFP" class="profile-picture" alt="Anime Profile Picture" loading="lazy">
+          <img src="assets/profile.jpg" class="profile-picture" alt="Profile Picture" loading="lazy">
         </div>
         <div>
           <div id="profile-name">Anmol</div>
           <div class="tagline">Crafting the Future, One Line of Code at a Time</div>
           <div class="badge-group">
-            <img src="https://via.placeholder.com/30?text=Badge1" class="badge" aria-label="Anime Badge 1" alt="Anime Badge 1">
-            <img src="https://via.placeholder.com/30?text=Badge2" class="badge" aria-label="Anime Badge 2" alt="Anime Badge 2">
-            <img src="https://via.placeholder.com/30?text=Badge3" class="badge" aria-label="Anime Badge 3" alt="Anime Badge 3">
+            <img src="assets/verified.gif" class="badge" aria-label="Verified User" alt="Verified Badge">
+            <img src="assets/owner.gif" class="badge" aria-label="Project Owner" alt="Owner Badge">
+            <img src="assets/developer.png" class="badge" aria-label="Full-Stack Developer" alt="Developer Badge">
           </div>
           <div id="profile-bio"></div>
         </div>
       </div>
       <div class="social-links">
         <a href="https://github.com/Anmol144a" target="_blank" aria-label="GitHub Profile">
-          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/github.png" class="social-icon" alt="GitHub Icon">
+          <img src="assets/github.png" class="social-icon" alt="GitHub Icon">
         </a>
         <a href="https://discord.gg/your-discord" target="_blank" aria-label="Discord Profile">
-          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/discord.png" class="social-icon" alt="Discord Icon">
+          <img src="assets/discord.webp" class="social-icon" alt="Discord Icon">
         </a>
       </div>
       <button class="contact-button" onclick="openModal()">Contact Me</button>
@@ -563,10 +563,10 @@
 
     const themes = {
       home: { background: '', opacity: 1 },
-      hacker: { background: "black url('https://i.ibb.co/3fdZpXf/matrix.gif') repeat", opacity: 0 },
-      rain: { background: "url('https://i.ibb.co/dB3s1FJ/rain.gif') center/cover", opacity: 0 },
-      anime: { background: "url('https://i.ibb.co/Br6cj7W/anime.gif') center/cover", opacity: 0 },
-      car: { background: "url('https://i.ibb.co/3MMHhWS/car.gif') center/cover", opacity: 0 }
+      hacker: { background: "black url('assets/anime.gif') repeat", opacity: 0 },
+      rain: { background: "url('assets/anime.gif') center/cover", opacity: 0 },
+      anime: { background: "url('assets/anime.gif') center/cover", opacity: 0 },
+      car: { background: "url('assets/anime.gif') center/cover", opacity: 0 }
     };
     const backgroundDiv = document.querySelector('.background');
     document.querySelectorAll('.theme-button').forEach(btn => {
