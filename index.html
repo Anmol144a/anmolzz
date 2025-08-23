@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>(Anmol)</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Courier New', monospace;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0a0a0a, #000);
+      color: #fff;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    /* ✨ Animated Background */
+    .background {
+      position: fixed;
+      width: 100%; height: 100%;
+      background: linear-gradient(-45deg, #0ff, #0ff2, #0ff4, #000);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      z-index: -2;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      width: 100%; height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      background: #0ff;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 8s linear infinite;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.5); opacity: 0.2;}
+      to { transform: translateY(-10vh) scale(1.2); opacity: 1;}
+    }
+
+    .custom-cursor {
+      position: fixed;
+      width: 40px; height: 40px;
+      background: url('https://raw.githubusercontent.com/Anmol144a/main/assets/custom_cursor.png') no-repeat center center;
+      background-size: contain;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 0 10px cyan);
+    }
+    * { cursor: none; }
+
+    .container {
+      width: 100%; height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      perspective: 1000px;
+    }
+
+    #profile-block {
+      width: 820px; min-height: 340px;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid rgba(0,255,255,0.3);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex; flex-direction: column;
+      gap: 15px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 40px rgba(0,255,255,0.3);
+      animation: floatCard 6s ease-in-out infinite;
+      transform-style: preserve-3d;
+      transition: transform 0.4s;
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0px);}
+      50% { transform: translateY(-12px);}
+    }
+    #profile-block:hover {
+      transform: rotateX(6deg) rotateY(-6deg);
+      box-shadow: 0 0 50px cyan;
+    }
+
+    .profile-header {
+      display: flex; gap: 20px; align-items: center;
+    }
+    .profile-container {
+      width: 150px; height: 150px;
+      border-radius: 50%; overflow: hidden;
+      border: 3px solid cyan;
+      box-shadow: 0 0 20px cyan;
+    }
+    .profile-picture { width: 100%; height: 100%; object-fit: cover; }
+
+    #profile-name {
+      font-size: 36px; font-weight: bold;
+      color: cyan;
+      text-shadow: 0 0 15px cyan;
+    }
+
+    .badge-group { display: flex; gap: 10px; }
+    .badge {
+      width: 28px; height: 28px;
+      filter: drop-shadow(0 0 8px cyan);
+      transition: transform 0.3s;
+    }
+    .badge:hover { transform: scale(1.3); }
+
+    #profile-bio {
+      font-size: 20px;
+      color: #eee;
+      border-right: 2px solid cyan;
+      white-space: nowrap; overflow: hidden;
+      animation: blink 0.7s infinite step-end;
+    }
+    @keyframes blink { 50% {border-color: transparent;} }
+
+    .social-links {
+      display: flex; justify-content: center;
+      gap: 18px; margin-top: 15px;
+    }
+    .social-icon {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      padding: 8px;
+      filter: drop-shadow(0 0 10px cyan);
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .social-icon:hover {
+      transform: scale(1.3) rotate(10deg);
+      filter: drop-shadow(0 0 20px cyan);
+    }
+
+    .controls {
+      position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 12px;
+      background: rgba(0,0,0,0.6);
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: 2px solid cyan;
+      backdrop-filter: blur(8px);
+    }
+    .theme-button {
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; border: 1px solid #0ff5;
+      color: cyan; font-weight: bold;
+      transition: 0.3s;
+    }
+    .theme-button:hover {
+      background: cyan; color: black;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px cyan;
+    }
+
+    @media(max-width:430px){
+      #profile-block { width: 90vw; }
+      .profile-header { flex-direction: column; }
+      .profile-container { width: 120px; height: 120px; }
+      #profile-name { font-size: 26px; }
+      #profile-bio { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <div class="particles"></div>
+  <div class="custom-cursor"></div>
+
+  <div class="container">
+    <div id="profile-block">
+      <div class="profile-header">
+        <div class="profile-container">
+          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/profile.jpg" class="profile-picture">
+        </div>
+        <div>
+          <div id="profile-name">(Anmol)</div>
+          <div class="badge-group">
+            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/verified.png" class="badge">
+            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/owner.png" class="badge">
+            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/developer.png" class="badge">
+          </div>
+          <div id="profile-bio"></div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="https://github.com/Anmol144a" target="_blank"><img src="https://raw.githubusercontent.com/Anmol144a/main/assets/github.png" class="social-icon"></a>
+        <a href="https://discord.gg/your-discord" target="_blank"><img src="https://raw.githubusercontent.com/Anmol144a/main/assets/discord.png" class="social-icon"></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div id="home-theme" class="theme-button">1</div>
+    <div id="hacker-theme" class="theme-button">2</div>
+    <div id="rain-theme" class="theme-button">3</div>
+    <div id="anime-theme" class="theme-button">4</div>
+    <div id="car-theme" class="theme-button">5</div>
+  </div>
+
+  <script>
+    // custom cursor
+    const cursor = document.querySelector(".custom-cursor");
+    document.addEventListener("mousemove", e=>{
+      cursor.style.left = e.clientX+"px";
+      cursor.style.top = e.clientY+"px";
+    });
+
+    // typing bio
+    const bio = document.getElementById("profile-bio");
+    const texts = ["Owner of Auto Farmerz", "Hello its me Anmol", "Full-Stack Developer"];
+    let i=0, j=0, del=false;
+    function typeEffect(){
+      let current = texts[i];
+      if(!del){
+        bio.textContent = current.substring(0, j++);
+        if(j > current.length+5) del=true;
+      } else {
+        bio.textContent = current.substring(0, j--);
+        if(j<0){ del=false; i=(i+1)%texts.length; }
+      }
+      setTimeout(typeEffect, del?80:120);
+    }
+    typeEffect();
+
+    // particles
+    const particles = document.querySelector(".particles");
+    for(let k=0;k<30;k++){
+      let p=document.createElement("div");
+      p.className="particle";
+      p.style.left=Math.random()*100+"vw";
+      p.style.animationDuration=5+Math.random()*10+"s";
+      particles.appendChild(p);
+    }
+
+    // theme switch
+    document.querySelectorAll(".theme-button").forEach(btn=>{
+      btn.onclick=()=>{
+        if(btn.id==="hacker-theme"){
+          document.body.style.background="black url('https://i.ibb.co/3fdZpXf/matrix.gif') repeat";
+          document.body.style.backgroundSize="cover";
+        } else if(btn.id==="rain-theme"){
+          document.body.style.background="url('https://i.ibb.co/dB3s1FJ/rain.gif')";
+        } else if(btn.id==="anime-theme"){
+          document.body.style.background="url('https://i.ibb.co/Br6cj7W/anime.gif') center/cover";
+        } else if(btn.id==="car-theme"){
+          document.body.style.background="url('https://i.ibb.co/3MMHhWS/car.gif') center/cover";
+        } else {
+          document.body.style.background="";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
