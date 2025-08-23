@@ -3,265 +3,644 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>(Anmol)</title>
+  <title>Anmol's Portfolio</title>
   <style>
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Courier New', monospace;
     }
-
     body {
-      background: radial-gradient(circle at top, #0a0a0a, #000);
+      background: radial-gradient(circle at top, #1a1a1a, #000);
       color: #fff;
       overflow: hidden;
       min-height: 100vh;
+      transition: background 0.5s ease;
     }
-
-    /* ✨ Animated Background */
+    a, button, .theme-button {
+      cursor: pointer !important;
+    }
     .background {
       position: fixed;
-      width: 100%; height: 100%;
-      background: linear-gradient(-45deg, #0ff, #0ff2, #0ff4, #000);
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #00ffff, #00cccc, #000);
       background-size: 400% 400%;
       animation: gradientBG 12s ease infinite;
       z-index: -2;
+      transition: opacity 0.5s;
     }
     @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-
-    /* Floating particles */
     .particles {
       position: fixed;
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       z-index: -1;
       overflow: hidden;
     }
     .particle {
       position: absolute;
-      width: 6px; height: 6px;
-      background: #0ff;
+      width: 6px;
+      height: 6px;
+      background: #00ffff;
       border-radius: 50%;
-      opacity: 0.6;
+      opacity: 0.7;
       animation: float 8s linear infinite;
+      pointer-events: none;
+      will-change: transform, opacity;
     }
     @keyframes float {
-      from { transform: translateY(100vh) scale(0.5); opacity: 0.2;}
-      to { transform: translateY(-10vh) scale(1.2); opacity: 1;}
+      from { transform: translateY(100vh) scale(0.5); opacity: 0.3; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 1; }
     }
-
+    .trail {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #00ffff;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fade 0.5s ease-out forwards;
+    }
+    @keyframes fade {
+      to { opacity: 0; transform: scale(0); }
+    }
     .custom-cursor {
       position: fixed;
-      width: 40px; height: 40px;
+      width: 40px;
+      height: 40px;
       background: url('https://raw.githubusercontent.com/Anmol144a/main/assets/custom_cursor.png') no-repeat center center;
       background-size: contain;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      filter: drop-shadow(0 0 10px cyan);
+      filter: drop-shadow(0 0 10px #00ffff);
+      transition: transform 0.1s;
     }
-    * { cursor: none; }
-
     .container {
-      width: 100%; height: 100vh;
-      display: flex; justify-content: center; align-items: center;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       perspective: 1000px;
     }
-
     #profile-block {
-      width: 820px; min-height: 340px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid rgba(0,255,255,0.3);
+      width: 820px;
+      min-height: 400px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #00ffff;
       border-radius: 20px;
-      padding: 20px;
-      display: flex; flex-direction: column;
-      gap: 15px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
       backdrop-filter: blur(15px);
-      box-shadow: 0 0 40px rgba(0,255,255,0.3);
-      animation: floatCard 6s ease-in-out infinite;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
+      animation: floatCard 6s ease-in-out infinite, swayCard 10s ease-in-out infinite;
       transform-style: preserve-3d;
-      transition: transform 0.4s;
+      transition: transform 0.2s ease-out, box-shadow 0.4s;
+      will-change: transform;
     }
     @keyframes floatCard {
-      0%,100% { transform: translateY(0px);}
-      50% { transform: translateY(-12px);}
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes swayCard {
+      0%, 100% { transform: rotateZ(0deg); }
+      50% { transform: rotateZ(2deg); }
     }
     #profile-block:hover {
-      transform: rotateX(6deg) rotateY(-6deg);
-      box-shadow: 0 0 50px cyan;
+      box-shadow: 0 0 60px #00ffff;
+      border-color: #00cccc;
     }
-
     .profile-header {
-      display: flex; gap: 20px; align-items: center;
+      display: flex;
+      gap: 25px;
+      align-items: center;
     }
     .profile-container {
-      width: 150px; height: 150px;
-      border-radius: 50%; overflow: hidden;
-      border: 3px solid cyan;
-      box-shadow: 0 0 20px cyan;
-    }
-    .profile-picture { width: 100%; height: 100%; object-fit: cover; }
-
-    #profile-name {
-      font-size: 36px; font-weight: bold;
-      color: cyan;
-      text-shadow: 0 0 15px cyan;
-    }
-
-    .badge-group { display: flex; gap: 10px; }
-    .badge {
-      width: 28px; height: 28px;
-      filter: drop-shadow(0 0 8px cyan);
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #00ffff;
+      box-shadow: 0 0 25px #00ffff;
       transition: transform 0.3s;
     }
-    .badge:hover { transform: scale(1.3); }
-
-    #profile-bio {
-      font-size: 20px;
-      color: #eee;
-      border-right: 2px solid cyan;
-      white-space: nowrap; overflow: hidden;
-      animation: blink 0.7s infinite step-end;
+    .profile-container:hover {
+      transform: scale(1.05);
     }
-    @keyframes blink { 50% {border-color: transparent;} }
-
+    .profile-picture {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s;
+    }
+    .profile-picture:hover {
+      filter: brightness(1.2);
+    }
+    #profile-name {
+      font-size: 38px;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 15px #00ffff;
+      letter-spacing: 1px;
+      animation: rgbText 3s linear infinite;
+    }
+    @keyframes rgbText {
+      0% { color: #00ffff; }
+      50% { color: #00cccc; }
+      100% { color: #00ffff; }
+    }
+    .tagline {
+      font-size: 18px;
+      color: #cccccc;
+      font-style: italic;
+      margin-top: 5px;
+      opacity: 0;
+      animation: fadeIn 2s forwards 1s;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .badge-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .badge {
+      width: 30px;
+      height: 30px;
+      filter: drop-shadow(0 0 8px #00ffff);
+      transition: transform 0.3s;
+      position: relative;
+    }
+    .badge:hover {
+      transform: scale(1.3) rotate(5deg);
+    }
+    .badge[aria-label]:hover:after {
+      content: attr(aria-label);
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: #00ffff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    #profile-bio {
+      font-size: 22px;
+      color: #eeeeee;
+      border-right: 2px solid #00ffff;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: blink 0.7s infinite step-end;
+      min-height: 30px;
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
     .social-links {
-      display: flex; justify-content: center;
-      gap: 18px; margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
     }
     .social-icon {
-      width: 42px; height: 42px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
-      background: rgba(0,0,0,0.4);
-      padding: 8px;
-      filter: drop-shadow(0 0 10px cyan);
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      filter: drop-shadow(0 0 10px #00ffff);
       transition: transform 0.3s, filter 0.3s;
+      animation: pulseIcon 4s ease-in-out infinite;
     }
     .social-icon:hover {
       transform: scale(1.3) rotate(10deg);
-      filter: drop-shadow(0 0 20px cyan);
+      filter: drop-shadow(0 0 20px #00ffff);
     }
-
+    @keyframes pulseIcon {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .contact-button {
+      align-self: center;
+      padding: 10px 20px;
+      background: transparent;
+      border: 2px solid #00ffff;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 10px;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+    .contact-button:hover {
+      background: #00cccc;
+      color: #000;
+      box-shadow: 0 0 15px #00ffff;
+      transform: scale(1.1);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeInModal 0.3s ease;
+    }
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-content {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 30px;
+      border-radius: 15px;
+      border: 2px solid #00ffff;
+      text-align: center;
+      color: #eeeeee;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 20px #00ffff;
+    }
+    .modal-content h2 {
+      font-size: 24px;
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+    .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .modal-content input,
+    .modal-content textarea {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      color: #fff;
+      border-radius: 5px;
+      font-family: inherit;
+    }
+    .modal-content input:focus,
+    .modal-content textarea:focus {
+      outline: none;
+      box-shadow: 0 0 10px #00ffff;
+    }
+    .modal-content button {
+      padding: 10px 20px;
+      background: #00cccc;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      transition: transform 0.3s;
+    }
+    .modal-content button:hover {
+      transform: scale(1.1);
+    }
+    .modal-content .close-button {
+      background: transparent;
+      border: 1px solid #00ffff;
+      color: #fff;
+      margin-top: 10px;
+    }
     .controls {
-      position: fixed; bottom: 30px; left: 50%;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
       transform: translateX(-50%);
-      display: flex; gap: 12px;
-      background: rgba(0,0,0,0.6);
-      padding: 10px 15px;
+      display: flex;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 12px 20px;
       border-radius: 20px;
-      border: 2px solid cyan;
-      backdrop-filter: blur(8px);
+      border: 2px solid #00ffff;
+      backdrop-filter: blur(10px);
     }
     .theme-button {
-      width: 34px; height: 34px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; border: 1px solid #0ff5;
-      color: cyan; font-weight: bold;
-      transition: 0.3s;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid #00ffff;
+      color: #fff;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: pulseButton 4s ease-in-out infinite;
     }
     .theme-button:hover {
-      background: cyan; color: black;
+      background: #00cccc;
+      color: #000;
       transform: scale(1.1);
-      box-shadow: 0 0 15px cyan;
+      box-shadow: 0 0 15px #00ffff;
     }
-
-    @media(max-width:430px){
-      #profile-block { width: 90vw; }
-      .profile-header { flex-direction: column; }
-      .profile-container { width: 120px; height: 120px; }
-      #profile-name { font-size: 26px; }
-      #profile-bio { font-size: 16px; }
+    .theme-button.active {
+      background: #00cccc;
+      color: #000;
+    }
+    @keyframes pulseButton {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .sound-toggle {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1px solid #00ffff;
+      color: #fff;
+      font-size: 16px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      animation: pulseButton 4s ease-in-out infinite;
+    }
+    .sound-toggle:hover {
+      background: #00cccc;
+      color: #000;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #00ffff;
+    }
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.5s;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #00ffff;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (max-width: 430px) {
+      #profile-block {
+        width: 90vw;
+        padding: 15px;
+      }
+      .profile-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .profile-container {
+        width: 120px;
+        height: 120px;
+      }
+      #profile-name {
+        font-size: 28px;
+      }
+      #profile-bio {
+        font-size: 18px;
+      }
+      .social-icon {
+        width: 40px;
+        height: 40px;
+      }
+      .controls {
+        gap: 10px;
+        padding: 8px 12px;
+      }
+      .theme-button, .sound-toggle {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+      }
+      .modal-content {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+  </div>
   <div class="background"></div>
   <div class="particles"></div>
   <div class="custom-cursor"></div>
 
   <div class="container">
-    <div id="profile-block">
+    <div id="profile-block" role="region" aria-label="Profile Card">
       <div class="profile-header">
         <div class="profile-container">
-          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/profile.jpg" class="profile-picture">
+          <img src="https://via.placeholder.com/160?text=Anime+PFP" class="profile-picture" alt="Anime Profile Picture" loading="lazy">
         </div>
         <div>
-          <div id="profile-name">(Anmol)</div>
+          <div id="profile-name">Anmol</div>
+          <div class="tagline">Crafting the Future, One Line of Code at a Time</div>
           <div class="badge-group">
-            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/verified.png" class="badge">
-            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/owner.png" class="badge">
-            <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/developer.png" class="badge">
+            <img src="https://via.placeholder.com/30?text=Badge1" class="badge" aria-label="Anime Badge 1" alt="Anime Badge 1">
+            <img src="https://via.placeholder.com/30?text=Badge2" class="badge" aria-label="Anime Badge 2" alt="Anime Badge 2">
+            <img src="https://via.placeholder.com/30?text=Badge3" class="badge" aria-label="Anime Badge 3" alt="Anime Badge 3">
           </div>
           <div id="profile-bio"></div>
         </div>
       </div>
       <div class="social-links">
-        <a href="https://github.com/Anmol144a" target="_blank"><img src="https://raw.githubusercontent.com/Anmol144a/main/assets/github.png" class="social-icon"></a>
-        <a href="https://discord.gg/your-discord" target="_blank"><img src="https://raw.githubusercontent.com/Anmol144a/main/assets/discord.png" class="social-icon"></a>
+        <a href="https://github.com/Anmol144a" target="_blank" aria-label="GitHub Profile">
+          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/github.png" class="social-icon" alt="GitHub Icon">
+        </a>
+        <a href="https://discord.gg/your-discord" target="_blank" aria-label="Discord Profile">
+          <img src="https://raw.githubusercontent.com/Anmol144a/main/assets/discord.png" class="social-icon" alt="Discord Icon">
+        </a>
       </div>
+      <button class="contact-button" onclick="openModal()">Contact Me</button>
     </div>
   </div>
 
-  <div class="controls">
-    <div id="home-theme" class="theme-button">1</div>
-    <div id="hacker-theme" class="theme-button">2</div>
-    <div id="rain-theme" class="theme-button">3</div>
-    <div id="anime-theme" class="theme-button">4</div>
-    <div id="car-theme" class="theme-button">5</div>
+  <div class="modal" id="contactModal" role="dialog" aria-labelledby="contactTitle">
+    <div class="modal-content">
+      <h2 id="contactTitle">Contact Anmol</h2>
+      <form id="contactForm">
+        <input type="text" placeholder="Your Name" required aria-label="Name">
+        <input type="email" placeholder="Your Email" required aria-label="Email">
+        <textarea placeholder="Your Message" rows="4" required aria-label="Message"></textarea>
+        <button type="submit">Send</button>
+        <button type="button" class="close-button" onclick="closeModal()">Close</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="controls" role="navigation" aria-label="Theme and Sound Controls">
+    <div id="home-theme" class="theme-button" data-theme="home">1</div>
+    <div id="hacker-theme" class="theme-button" data-theme="hacker">2</div>
+    <div id="rain-theme" class="theme-button" data-theme="rain">3</div>
+    <div id="anime-theme" class="theme-button" data-theme="anime">4</div>
+    <div id="car-theme" class="theme-button" data-theme="car">5</div>
+    <div class="sound-toggle" id="soundToggle" aria-label="Toggle Sound">🔊</div>
   </div>
 
   <script>
-    // custom cursor
-    const cursor = document.querySelector(".custom-cursor");
-    document.addEventListener("mousemove", e=>{
-      cursor.style.left = e.clientX+"px";
-      cursor.style.top = e.clientY+"px";
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('loading').style.display = 'none';
+        }, 500);
+      }, 1000);
     });
 
-    // typing bio
-    const bio = document.getElementById("profile-bio");
-    const texts = ["Owner of Auto Farmerz", "Hello its me Anmol", "Full-Stack Developer"];
-    let i=0, j=0, del=false;
-    function typeEffect(){
+    const cursor = document.querySelector('.custom-cursor');
+    let trailCount = 0;
+    const maxTrails = 5;
+    function updateCursor(e) {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      if (trailCount < maxTrails) {
+        const trail = document.createElement('div');
+        trail.className = 'trail';
+        trail.style.left = e.clientX + 'px';
+        trail.style.top = e.clientY + 'px';
+        document.body.appendChild(trail);
+        trailCount++;
+        setTimeout(() => {
+          trail.remove();
+          trailCount--;
+        }, 500);
+      }
+      requestAnimationFrame(() => document.addEventListener('mousemove', updateCursor, { once: true }));
+    }
+    document.addEventListener('mousemove', updateCursor, { once: true });
+
+    const bio = document.getElementById('profile-bio');
+    const texts = ['Owner of Auto Farmerz', 'Hello, I am Anmol', 'Full-Stack Developer', 'Passionate Innovator'];
+    let i = 0, j = 0, del = false;
+    function typeEffect() {
       let current = texts[i];
-      if(!del){
+      if (!del) {
         bio.textContent = current.substring(0, j++);
-        if(j > current.length+5) del=true;
+        if (j > current.length + 5) del = true;
       } else {
         bio.textContent = current.substring(0, j--);
-        if(j<0){ del=false; i=(i+1)%texts.length; }
+        if (j < 0) {
+          del = false;
+          i = (i + 1) % texts.length;
+        }
       }
-      setTimeout(typeEffect, del?80:120);
+      setTimeout(typeEffect, del ? 80 : 120);
     }
     typeEffect();
 
-    // particles
-    const particles = document.querySelector(".particles");
-    for(let k=0;k<30;k++){
-      let p=document.createElement("div");
-      p.className="particle";
-      p.style.left=Math.random()*100+"vw";
-      p.style.animationDuration=5+Math.random()*10+"s";
-      particles.appendChild(p);
+    const particlesContainer = document.querySelector('.particles');
+    const particleCount = window.innerWidth < 430 ? 10 : 20;
+    for (let k = 0; k < particleCount; k++) {
+      let p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = 5 + Math.random() * 10 + 's';
+      p.style.animationDelay = Math.random() * 2 + 's';
+      particlesContainer.appendChild(p);
     }
 
-    // theme switch
-    document.querySelectorAll(".theme-button").forEach(btn=>{
-      btn.onclick=()=>{
-        if(btn.id==="hacker-theme"){
-          document.body.style.background="black url('https://i.ibb.co/3fdZpXf/matrix.gif') repeat";
-          document.body.style.backgroundSize="cover";
-        } else if(btn.id==="rain-theme"){
-          document.body.style.background="url('https://i.ibb.co/dB3s1FJ/rain.gif')";
-        } else if(btn.id==="anime-theme"){
-          document.body.style.background="url('https://i.ibb.co/Br6cj7W/anime.gif') center/cover";
-        } else if(btn.id==="car-theme"){
-          document.body.style.background="url('https://i.ibb.co/3MMHhWS/car.gif') center/cover";
-        } else {
-          document.body.style.background="";
+    const themes = {
+      home: { background: '', opacity: 1 },
+      hacker: { background: "black url('https://i.ibb.co/3fdZpXf/matrix.gif') repeat", opacity: 0 },
+      rain: { background: "url('https://i.ibb.co/dB3s1FJ/rain.gif') center/cover", opacity: 0 },
+      anime: { background: "url('https://i.ibb.co/Br6cj7W/anime.gif') center/cover", opacity: 0 },
+      car: { background: "url('https://i.ibb.co/3MMHhWS/car.gif') center/cover", opacity: 0 }
+    };
+    const backgroundDiv = document.querySelector('.background');
+    document.querySelectorAll('.theme-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        document.body.style.background = themes[theme].background || 'radial-gradient(circle at top, #1a1a1a, #000)';
+        backgroundDiv.style.opacity = themes[theme].opacity;
+        document.querySelectorAll('.theme-button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (soundEnabled) playSound();
+      });
+    });
+
+    const card = document.getElementById('profile-block');
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * 6;
+      const rotateY = ((x - centerX) / centerX) * -6;
+      card.style.transform = `translateY(${Math.sin(Date.now() / 1000) * 15}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${Math.sin(Date.now() / 2000) * 2}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
+    });
+
+    const modal = document.getElementById('contactModal');
+    function openModal() {
+      modal.style.display = 'flex';
+      document.querySelector('#contactForm input').focus();
+    }
+    function closeModal() {
+      modal.style.display = 'none';
+      document.getElementById('contactForm').reset();
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Message sent! (This is a demo; integrate with a backend for real functionality.)');
+      closeModal();
+    });
+
+    let soundEnabled = true;
+    const soundToggle = document.getElementById('soundToggle');
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
+      soundToggle.setAttribute('aria-label', soundEnabled ? 'Disable Sound' : 'Enable Sound');
+    });
+    function playSound() {
+      const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+      audio.play().catch(() => {});
+    }
+
+    document.querySelectorAll('.theme-button, .sound-toggle').forEach((btn, index) => {
+      btn.setAttribute('tabindex', '0');
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
         }
+      });
+    });
+    document.querySelector('.contact-button').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal();
       }
     });
   </script>
