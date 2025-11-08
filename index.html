@@ -1,648 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anmol's Portfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Anmol • Interactive Portfolio</title>
+  <meta name="description" content="Anmol — Full-stack developer. Projects, live AI assistant, contact.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Courier New', monospace;
+    /* ---------- Variables & Reset ---------- */
+    :root{
+      --bg:#06070a;--card:#071017;--accent:#00e6d0;--accent-2:#00bfbf;--muted:#aeb7c0;
+      --glass:rgba(255,255,255,.03);--round:14px;--maxw:1100px;
     }
-    body {
-      background: radial-gradient(circle at top, #1a1a1a, #000);
-      color: #fff;
-      overflow: hidden;
-      min-height: 100vh;
-      transition: background 0.5s ease;
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background:linear-gradient(180deg,#05060a 0%,#07101a 60%);
+      color:#e8f7f3;font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      -webkit-font-smoothing:antialiased;line-height:1.5;
     }
-    a, button, .theme-button {
-      cursor: pointer !important;
-    }
-    .background {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(-45deg, #00ffff, #00cccc, #000);
-      background-size: 400% 400%;
-      animation: gradientBG 12s ease infinite;
-      z-index: -2;
-      transition: opacity 0.5s;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .particles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #00ffff;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: float 8s linear infinite;
-      pointer-events: none;
-      will-change: transform, opacity;
-    }
-    @keyframes float {
-      from { transform: translateY(100vh) scale(0.5); opacity: 0.3; }
-      to { transform: translateY(-10vh) scale(1.2); opacity: 1; }
-    }
-    .trail {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #00ffff;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: fade 0.5s ease-out forwards;
-    }
-    @keyframes fade {
-      to { opacity: 0; transform: scale(0); }
-    }
-    .custom-cursor {
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      background: url('assets/images/custom_cursor.png') no-repeat center center;
-      background-size: contain;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      filter: drop-shadow(0 0 10px #00ffff);
-      transition: transform 0.1s;
-    }
-    .container {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1000px;
-    }
-    #profile-block {
-      width: 820px;
-      min-height: 400px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid #00ffff;
-      border-radius: 20px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
-      animation: floatCard 6s ease-in-out infinite, swayCard 10s ease-in-out infinite;
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease-out, box-shadow 0.4s;
-      will-change: transform;
-    }
-    @keyframes floatCard {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-15px); }
-    }
-    @keyframes swayCard {
-      0%, 100% { transform: rotateZ(0deg); }
-      50% { transform: rotateZ(2deg); }
-    }
-    #profile-block:hover {
-      box-shadow: 0 0 60px #00ffff;
-      border-color: #00cccc;
-    }
-    .profile-header {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-    .profile-container {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid #00ffff;
-      box-shadow: 0 0 25px #00ffff;
-      transition: transform 0.3s;
-    }
-    .profile-container:hover {
-      transform: scale(1.05);
-    }
-    .profile-picture {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: filter 0.3s;
-    }
-    .profile-picture:hover {
-      filter: brightness(1.2);
-    }
-    #profile-name {
-      font-size: 38px;
-      font-weight: bold;
-      color: #00ffff;
-      text-shadow: 0 0 15px #00ffff;
-      letter-spacing: 1px;
-      animation: rgbText 3s linear infinite;
-    }
-    @keyframes rgbText {
-      0% { color: #00ffff; }
-      50% { color: #00cccc; }
-      100% { color: #00ffff; }
-    }
-    .tagline {
-      font-size: 18px;
-      color: #cccccc;
-      font-style: italic;
-      margin-top: 5px;
-      opacity: 0;
-      animation: fadeIn 2s forwards 1s;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .badge-group {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .badge {
-      width: 30px;
-      height: 30px;
-      filter: drop-shadow(0 0 8px #00ffff);
-      transition: transform 0.3s;
-      position: relative;
-    }
-    .badge:hover {
-      transform: scale(1.3) rotate(5deg);
-    }
-    .badge[aria-label]:hover:after {
-      content: attr(aria-label);
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      color: #00ffff;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      white-space: nowrap;
-      z-index: 10;
-    }
-    #profile-bio {
-      font-size: 22px;
-      color: #eeeeee;
-      border-right: 2px solid #00ffff;
-      white-space: nowrap;
-      overflow: hidden;
-      animation: blink 0.7s infinite step-end;
-      min-height: 30px;
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .social-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      filter: drop-shadow(0 0 10px #00ffff);
-      transition: transform 0.3s, filter 0.3s;
-      animation: pulseIcon 4s ease-in-out infinite;
-    }
-    .social-icon:hover {
-      transform: scale(1.3) rotate(10deg);
-      filter: drop-shadow(0 0 20px #00ffff);
-    }
-    @keyframes pulseIcon {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .contact-button {
-      align-self: center;
-      padding: 10px 20px;
-      background: transparent;
-      border: 2px solid #00ffff;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 10px;
-      transition: background 0.3s, color 0.3s, transform 0.3s;
-    }
-    .contact-button:hover {
-      background: #00cccc;
-      color: #000;
-      box-shadow: 0 0 15px #00ffff;
-      transform: scale(1.1);
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      animation: fadeInModal 0.3s ease;
-    }
-    @keyframes fadeInModal {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .modal-content {
-      background: rgba(0, 0, 0, 0.9);
-      padding: 30px;
-      border-radius: 15px;
-      border: 2px solid #00ffff;
-      text-align: center;
-      color: #eeeeee;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 0 20px #00ffff;
-    }
-    .modal-content h2 {
-      font-size: 24px;
-      color: #00ffff;
-      margin-bottom: 20px;
-    }
-    .modal-content form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .modal-content input,
-    .modal-content textarea {
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid #00ffff;
-      color: #fff;
-      border-radius: 5px;
-      font-family: inherit;
-    }
-    .modal-content input:focus,
-    .modal-content textarea:focus {
-      outline: none;
-      box-shadow: 0 0 10px #00ffff;
-    }
-    .modal-content button {
-      padding: 10px 20px;
-      background: #00cccc;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      transition: transform 0.3s;
-    }
-    .modal-content button:hover {
-      transform: scale(1.1);
-    }
-    .modal-content .close-button {
-      background: transparent;
-      border: 1px solid #00ffff;
-      color: #fff;
-      margin-top: 10px;
-    }
-    .controls {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 15px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 12px 20px;
-      border-radius: 20px;
-      border: 2px solid #00ffff;
-      backdrop-filter: blur(10px);
-    }
-    .theme-button {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      border: 1px solid #00ffff;
-      color: #fff;
-      font-weight: bold;
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: pulseButton 4s ease-in-out infinite;
-    }
-    .theme-button:hover {
-      background: #00cccc;
-      color: #000;
-      transform: scale(1.1);
-      box-shadow: 0 0 15px #00ffff;
-    }
-    .theme-button.active {
-      background: #00cccc;
-      color: #000;
-    }
-    @keyframes pulseButton {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .sound-toggle {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      border: 1px solid #00ffff;
-      color: #fff;
-      font-size: 16px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      animation: pulseButton 4s ease-in-out infinite;
-    }
-    .sound-toggle:hover {
-      background: #00cccc;
-      color: #000;
-      transform: scale(1.1);
-      box-shadow: 0 0 15px #00ffff;
-    }
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      transition: opacity 0.5s;
-    }
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #00ffff;
-      border-top: 5px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    @media (max-width: 430px) {
-      #profile-block {
-        width: 90vw;
-        padding: 15px;
-      }
-      .profile-header {
-        flex-direction: column;
-        gap: 15px;
-      }
-      .profile-container {
-        width: 120px;
-        height: 120px;
-      }
-      #profile-name {
-        font-size: 28px;
-      }
-      #profile-bio {
-        font-size: 18px;
-      }
-      .social-icon {
-        width: 40px;
-        height: 40px;
-      }
-      .controls {
-        gap: 10px;
-        padding: 8px 12px;
-      }
-      .theme-button, .sound-toggle {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-      }
-      .modal-content {
-        padding: 20px;
-      }
+    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;font-family:inherit}
+    /* ---------- Layout ---------- */
+    .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    header{width:100%;max-width:var(--maxw);padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;z-index:40}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid;place-items:center;box-shadow:0 6px 30px rgba(0,230,208,.07);font-weight:700;color:#02131a;font-size:24px}
+    .brand h1{font-size:18px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:0}
+    /* ---------- Nav ---------- */
+    nav{display:flex;align-items:center;gap:14px}
+    .nav-links{display:flex;gap:12px}
+    .nav-links a{padding:8px 12px;border-radius:10px;color:var(--muted);font-size:14px;transition:background .2s,color .2s}
+    .nav-links a:hover,.nav-links a:focus{background:var(--glass);color:var(--accent);outline:none}
+    .hamburger{display:none;width:48px;height:40px;border-radius:8px;background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.03);align-items:center;justify-content:center;cursor:pointer}
+    .hamburger .bar{width:20px;height:2px;background:var(--accent);position:relative}
+    .hamburger .bar::before,.hamburger .bar::after{content:'';position:absolute;left:0;width:20px;height:2px;background:var(--accent)}
+    .hamburger .bar::before{top:-7px}.hamburger .bar::after{top:7px}
+    .drawer{position:fixed;right:20px;top:80px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+      border:1px solid rgba(0,230,208,.08);padding:12px;border-radius:12px;display:none;flex-direction:column;gap:8px;z-index:60}
+    .drawer a{padding:10px 14px;border-radius:10px;color:var(--muted);transition:background .2s,color .2s}
+    .drawer a:hover,.drawer a:focus{background:#06141a;color:var(--accent);outline:none}
+    /* ---------- Hero ---------- */
+    .hero{width:100%;max-width:var(--maxw);margin:18px;display:grid;grid-template-columns:1fr 420px;gap:30px;align-items:center}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border-radius:var(--round);padding:28px;
+      border:1px solid rgba(0,0,0,.3);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+    .intro{padding:18px}
+    .intro h2{margin:0;font-size:28px;color:#dffbf7}
+    .intro p{color:var(--muted);margin-top:8px}
+    .cta-row{display:flex;gap:12px;margin-top:18px}
+    .btn{background:transparent;border:1px solid rgba(0,230,208,.12);padding:10px 12px;border-radius:10px;color:var(--accent);
+      transition:background .2s,color .2s}
+    .btn:hover,.btn:focus{outline:none;background:var(--glass)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#001617;border:none}
+    /* Profile */
+    .profile{display:flex;gap:16px;align-items:center}
+    .avatar{width:114px;height:114px;border-radius:14px;overflow:hidden;border:3px solid rgba(0,230,208,.12)}
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .meta h3{margin:0;font-size:20px;color:#d0fff9}
+    .meta p{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+    .tag{display:inline-block;font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(0,230,208,.06);color:var(--accent);
+      border:1px solid rgba(0,230,208,.07);margin-right:4px}
+    /* Sections */
+    section{width:100%;max-width:var(--maxw);margin:22px}
+    .section-title{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .section-title h3{margin:0;font-size:24px}
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .project-card{background:linear-gradient(180deg,rgba(255,255,255,.015),rgba(255,255,255,.01));border-radius:12px;padding:16px;
+      border:1px solid rgba(0,230,208,.04);transition:transform .2s,box-shadow .2s}
+    .project-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.6)}
+    .proj-title{font-weight:600;font-size:15px;color:#e8fff9}
+    .proj-desc{font-size:13px;color:var(--muted);margin-top:8px}
+    .proj-actions{display:flex;gap:8px;margin-top:12px;align-items:center}
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:120}
+    .modal .backdrop{position:absolute;inset:0;background:linear-gradient(180deg,rgba(1,6,8,.6),rgba(1,6,8,.85))}
+    .modal .dialog{position:relative;z-index:10;width:min(920px,96vw);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+      border-radius:12px;padding:20px;border:1px solid rgba(0,230,208,.06)}
+    /* Chat */
+    .chat-wrap{display:flex;flex-direction:column;height:520px}
+    .chat-window{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+    .msg{max-width:78%;padding:10px 12px;border-radius:10px;font-size:14px}
+    .msg.user{align-self:flex-end;background:linear-gradient(90deg,#07383a,#002c2a);color:#c8fff7}
+    .msg.bot{align-self:flex-start;background:rgba(255,255,255,.02);color:var(--muted)}
+    .chat-input{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.02)}
+    .chat-input input{flex:1;padding:10px 12px;background:transparent;border:1px solid rgba(255,255,255,.03);color:inherit;border-radius:10px}
+    .chat-input button{padding:10px 14px;border-radius:10px;background:var(--accent);color:#001617;border:none}
+    /* Footer */
+    footer{width:100%;max-width:var(--maxw);margin:18px;padding:14px;display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+    /* Responsive */
+    @media (max-width:980px){.hero{grid-template-columns:1fr 320px}.projects-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:700px){
+      .hero{grid-template-columns:1fr}.projects-grid{grid-template-columns:1fr}.hamburger{display:flex}.nav-links{display:none}
+      header{padding:12px}.hero{margin:12px;gap:20px}
     }
   </style>
 </head>
 <body>
-  <div class="loading" id="loading">
-    <div class="loading-spinner"></div>
-  </div>
-  <div class="background"></div>
-  <div class="particles"></div>
-  <div class="custom-cursor"></div>
-
-  <div class="container">
-    <div id="profile-block" role="region" aria-label="Profile Card">
-      <div class="profile-header">
-        <div class="profile-container">
-          <img src="assets/profile.jpg" class="profile-picture" alt="Profile Picture" loading="lazy">
-        </div>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">A</div>
         <div>
-          <div id="profile-name">Anmol</div>
-          <div class="tagline">Crafting the Future, One Line of Code at a Time</div>
-          <div class="badge-group">
-            <img src="assets/verified.gif" class="badge" aria-label="Verified User" alt="Verified Badge">
-            <img src="assets/owner.gif" class="badge" aria-label="Project Owner" alt="Owner Badge">
-            <img src="assets/developer.png" class="badge" aria-label="Full-Stack Developer" alt="Developer Badge">
-          </div>
-          <div id="profile-bio"></div>
+          <h1>Anmol</h1>
+          <p>Full‑stack developer · automation · bots</p>
         </div>
       </div>
-      <div class="social-links">
-        <a href="https://github.com/Anmol144a" target="_blank" aria-label="GitHub Profile">
-          <img src="assets/github.png" class="social-icon" alt="GitHub Icon">
-        </a>
-        <a href="https://discord.gg/your-discord" target="_blank" aria-label="Discord Profile">
-          <img src="assets/discord.webp" class="social-icon" alt="Discord Icon">
-        </a>
+      <nav>
+        <div class="nav-links" role="navigation" aria-label="Main Navigation">
+          <a href="#home">Home</a>
+          <a href="#projects">Projects</a>
+          <a href="#ai">AI Assistant</a>
+          <a href="#about">About</a>
+        </div>
+        <div class="hamburger" id="hamburger" aria-label="Open menu" title="Menu" role="button" tabindex="0">
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </header>
+    <!-- Mobile drawer -->
+    <div class="drawer" id="drawer" aria-hidden="true">
+      <a href="#home" class="drawer-link">Home</a>
+      <a href="#projects" class="drawer-link">Projects</a>
+      <a href="#ai" class="drawer-link">AI Assistant</a>
+      <a href="#about" class="drawer-link">About</a>
+    </div>
+    <!-- Hero -->
+    <main class="hero" id="home">
+      <div class="card">
+        <div class="intro">
+          <div class="profile">
+            <div class="avatar"><img src="assets/profile.jpg" alt="Anmol's profile photo"></div>
+            <div class="meta">
+              <h3>Anmol — Full‑Stack Developer</h3>
+              <p>Crafting reliable automation, Discord tools, and web apps.</p>
+              <div style="margin-top:8px"><span class="tag">Node.js</span><span class="tag">Python</span><span class="tag">Selenium</span></div>
+            </div>
+          </div>
+          <h2 style="margin-top:18px">Hello! I build tools that help people and systems work smarter.</h2>
+          <p style="margin-top:8px">This single-page portfolio includes project demos and an integrated AI assistant you can chat with. Click <strong>AI Assistant</strong> to try it.</p>
+          <div class="cta-row">
+            <button class="btn" onclick="scrollToSection('projects')">See Projects</button>
+            <button class="btn primary" onclick="scrollToSection('ai')">Open AI Assistant</button>
+          </div>
+        </div>
       </div>
-      <button class="contact-button" onclick="openModal()">Contact Me</button>
+      <!-- Aside: Quick links -->
+      <aside style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:13px;color:var(--muted)">GitHub</div>
+              <div style="font-weight:700;font-size:20px">Anmol144a</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:12px;color:var(--muted)">Projects</div>
+              <div style="font-weight:700">12</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <small style="color:var(--muted)">Tip: Link your GitHub token to show live stats (server-side only).</small>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-size:13px;color:var(--muted)">Contact</div>
+          <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+            <a class="btn" href="mailto:anamoldhakal101@gmail.com">Email</a>
+            <a class="btn" href="https://github.com/Anmol144a" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-title"><h3>Projects</h3><div style="flex:1"></div></div>
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+    <!-- AI Assistant -->
+    <section id="ai">
+      <div class="section-title"><h3>AI Assistant</h3><div style="flex:1"></div></div>
+      <div class="card">
+        <div style="display:flex;gap:18px;align-items:flex-start">
+          <div style="flex:1">
+            <p style="color:var(--muted)">Chat with <strong>AttakiAI</strong> — a lightweight assistant powered by an LLM. Add your API key (OpenRouter/HuggingFace) or run local with Ollama.</p>
+            <div class="chat-wrap" id="chatWrap">
+              <div class="chat-window" id="chatWindow" role="log" aria-live="polite"></div>
+              <div class="chat-input">
+                <input id="userInput" placeholder="Ask something about my projects, or say hi..." aria-label="Message input">
+                <button id="sendBtn">Send</button>
+              </div>
+            </div>
+          </div>
+          <aside style="width:260px;flex-shrink:0">
+            <div style="font-size:13px;color:var(--muted)">Model</div>
+            <select id="modelSelect" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,.03);color:inherit">
+              <option value="openrouter">OpenRouter (Mistral)</option>
+              <option value="hf">HuggingFace</option>
+              <option value="local">Ollama (Local)</option>
+            </select>
+            <div style="margin-top:12px">
+              <div style="font-size:13px;color:var(--muted)">API Key</div>
+              <input id="apiKey" placeholder="Paste API key (optional)" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,.03);color:inherit" aria-label="API Key">
+              <small style="color:var(--muted);display:block;margin-top:4px">No key? Use local Ollama or demo mode.</small>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <!-- About -->
+    <section id="about">
+      <div class="section-title"><h3>About</h3><div style="flex:1"></div></div>
+      <div class="card">
+        <p style="color:var(--muted)">I'm Anmol — I enjoy building automation tools, Discord bots, and small full-stack projects. I keep learning and making projects that solve small problems quickly. This portfolio is a single-page living demo with an AI assistant and project showcases.</p>
+      </div>
+    </section>
+    <footer>
+      <div>© <strong>Anmol</strong> — Built with care •</div>
+      <div style="display:flex;gap:12px">
+        <a href="https://github.com/Anmol144a" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.instagram.com/_anmolzz" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </footer>
+    <!-- Project Modal -->
+    <div class="modal" id="projModal" aria-hidden="true">
+      <div class="backdrop" onclick="closeModal()"></div>
+      <div class="dialog" role="dialog" aria-modal="true">
+        <div id="modalContent"></div>
+        <div style="margin-top:12px;text-align:right"><button class="btn" onclick="closeModal()">Close</button></div>
+      </div>
     </div>
   </div>
-
-  <div class="modal" id="contactModal" role="dialog" aria-labelledby="contactTitle">
-    <div class="modal-content">
-      <h2 id="contactTitle">Contact Anmol</h2>
-      <form id="contactForm">
-        <input type="text" placeholder="Your Name" required aria-label="Name">
-        <input type="email" placeholder="Your Email" required aria-label="Email">
-        <textarea placeholder="Your Message" rows="4" required aria-label="Message"></textarea>
-        <button type="submit">Send</button>
-        <button type="button" class="close-button" onclick="closeModal()">Close</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="controls" role="navigation" aria-label="Theme and Sound Controls">
-    <div id="home-theme" class="theme-button" data-theme="home">1</div>
-    <div id="hacker-theme" class="theme-button" data-theme="hacker">2</div>
-    <div id="rain-theme" class="theme-button" data-theme="rain">3</div>
-    <div id="anime-theme" class="theme-button" data-theme="anime">4</div>
-    <div id="car-theme" class="theme-button" data-theme="car">5</div>
-    <div class="sound-toggle" id="soundToggle" aria-label="Toggle Sound">🔊</div>
-  </div>
-
   <script>
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loading').style.opacity = '0';
-        setTimeout(() => {
-          document.getElementById('loading').style.display = 'none';
-        }, 500);
-      }, 1000);
+    // Core UI Logic
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('drawer');
+    hamburger.addEventListener('click', toggleDrawer);
+    hamburger.addEventListener('keydown', (e)=>{ if(e.key==='Enter') toggleDrawer(); });
+    function toggleDrawer(){
+      const open = drawer.style.display === 'flex';
+      drawer.style.display = open ? 'none' : 'flex';
+      drawer.setAttribute('aria-hidden', !open);
+    }
+    document.querySelectorAll('.drawer-link, a[href^="#"]').forEach(a => a.addEventListener('click', () => drawer.style.display='none'));
+    function scrollToSection(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'}); }
+    // Projects Data
+    const projects = [
+      { id:'p1', title:'Discord Token Tool (Demo)', blurb:'Automation and token workflow tools with humanization flows. CLI + GUI demos.', tags:['Node','Selenium'], link:'https://example.com/demo1', github:'https://github.com/Anmol144a/discord-tool' },
+      { id:'p2', title:'Vortex LTC Tracker', blurb:'Live LTC price + wallet monitor with Vercel serverless backend (demo).', tags:['Python','Flask'], link:'https://example.com/vortex', github:'https://github.com/Anmol144a/vortex-tracker' },
+      { id:'p3', title:'Nanxi Topup Center', blurb:'Top-up UI for Free Fire, Firebase backed demo.', tags:['Firebase','Tailwind'], link:'https://example.com/nanxi', github:'https://github.com/Anmol144a/nanxi-topup' },
+      { id:'p4', title:'Instagram Automation', blurb:'Zendriver-based DM automation prototype (for learning only).', tags:['Python','Selenium'], link:'https://example.com/insta-auto', github:'https://github.com/Anmol144a/insta-proto' },
+      { id:'p5', title:'Attaki Chatbot (Prototype)', blurb:'This website integrates an LLM-backed chatbot. Try it in the AI section.', tags:['LLM','JS'], link:'#ai', github:'https://github.com/Anmol144a/attaki-chat' },
+    ];
+    const projectsGrid = document.getElementById('projectsGrid');
+    projects.forEach(p => {
+      const el = document.createElement('div'); el.className = 'project-card';
+      el.innerHTML = `
+        <div class="proj-title">${p.title}</div>
+        <div class="proj-desc">${p.blurb}</div>
+        <div class="proj-actions">
+          <button class="btn" onclick='openProject("${p.id}")'>Open</button>
+          <a class="btn" href="${p.github}" target="_blank" rel="noopener">Code</a>
+          <div style="margin-left:auto;color:var(--muted);font-size:12px">${p.tags.join(' · ')}</div>
+        </div>`;
+      projectsGrid.appendChild(el);
     });
-
-    const cursor = document.querySelector('.custom-cursor');
-    let trailCount = 0;
-    const maxTrails = 5;
-    function updateCursor(e) {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      if (trailCount < maxTrails) {
-        const trail = document.createElement('div');
-        trail.className = 'trail';
-        trail.style.left = e.clientX + 'px';
-        trail.style.top = e.clientY + 'px';
-        document.body.appendChild(trail);
-        trailCount++;
-        setTimeout(() => {
-          trail.remove();
-          trailCount--;
-        }, 500);
+    function openProject(id) {
+      const proj = projects.find(x => x.id === id);
+      const aiSummary = document.getElementById('aiSummary');
+      aiSummary.textContent = 'Generating AI summary...';
+      if (window.generateProjectSummary) {
+        window.generateProjectSummary(proj).then(summary => {
+          aiSummary.textContent = summary;
+        }).catch(() => {
+          aiSummary.textContent = 'Ask the AI assistant for a summary!';
+        });
       }
-      requestAnimationFrame(() => document.addEventListener('mousemove', updateCursor, { once: true }));
-    }
-    document.addEventListener('mousemove', updateCursor, { once: true });
-
-    const bio = document.getElementById('profile-bio');
-    const texts = ['Owner of Auto Farmerz', 'Hello, I am Anmol', 'Full-Stack Developer', 'Passionate Innovator'];
-    let i = 0, j = 0, del = false;
-    function typeEffect() {
-      let current = texts[i];
-      if (!del) {
-        bio.textContent = current.substring(0, j++);
-        if (j > current.length + 5) del = true;
-      } else {
-        bio.textContent = current.substring(0, j--);
-        if (j < 0) {
-          del = false;
-          i = (i + 1) % texts.length;
-        }
-      }
-      setTimeout(typeEffect, del ? 80 : 120);
-    }
-    typeEffect();
-
-    const particlesContainer = document.querySelector('.particles');
-    const particleCount = window.innerWidth < 430 ? 10 : 20;
-    for (let k = 0; k < particleCount; k++) {
-      let p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + 'vw';
-      p.style.animationDuration = 5 + Math.random() * 10 + 's';
-      p.style.animationDelay = Math.random() * 2 + 's';
-      particlesContainer.appendChild(p);
-    }
-
-    const themes = {
-      home: { background: '', opacity: 1 },
-      hacker: { background: "black url('assets/anime.gif') repeat", opacity: 0 },
-      rain: { background: "url('assets/anime.gif') center/cover", opacity: 0 },
-      anime: { background: "url('assets/anime.gif') center/cover", opacity: 0 },
-      car: { background: "url('assets/anime.gif') center/cover", opacity: 0 }
-    };
-    const backgroundDiv = document.querySelector('.background');
-    document.querySelectorAll('.theme-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const theme = btn.dataset.theme;
-        document.body.style.background = themes[theme].background || 'radial-gradient(circle at top, #1a1a1a, #000)';
-        backgroundDiv.style.opacity = themes[theme].opacity;
-        document.querySelectorAll('.theme-button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        if (soundEnabled) playSound();
-      });
-    });
-
-    const card = document.getElementById('profile-block');
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * 6;
-      const rotateY = ((x - centerX) / centerX) * -6;
-      card.style.transform = `translateY(${Math.sin(Date.now() / 1000) * 15}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${Math.sin(Date.now() / 2000) * 2}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
-    });
-
-    const modal = document.getElementById('contactModal');
-    function openModal() {
-      modal.style.display = 'flex';
-      document.querySelector('#contactForm input').focus();
+      document.getElementById('modalContent').innerHTML = `
+        <h3 style="margin:0 0 8px 0">${proj.title}</h3>
+        <p style="color:var(--muted)">${proj.blurb}</p>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <a class="btn primary" href="${proj.link}" target="_blank" rel="noopener">Open Demo</a>
+          <a class="btn" href="${proj.github}" target="_blank" rel="noopener">View Code</a>
+        </div>
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,.03)">
+        <div style="color:var(--muted);font-size:13px">AI Summary</div>
+        <div id="aiSummary" style="margin-top:8px;color:var(--muted)"></div>
+      `;
+      document.getElementById('projModal').style.display = 'flex';
+      document.getElementById('projModal').setAttribute('aria-hidden', 'false');
     }
     function closeModal() {
-      modal.style.display = 'none';
-      document.getElementById('contactForm').reset();
+      document.getElementById('projModal').style.display = 'none';
+      document.getElementById('projModal').setAttribute('aria-hidden', 'true');
     }
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') {
-        closeModal();
-      }
-    });
-
-    document.getElementById('contactForm').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Message sent! (This is a demo; integrate with a backend for real functionality.)');
-      closeModal();
-    });
-
-    let soundEnabled = true;
-    const soundToggle = document.getElementById('soundToggle');
-    soundToggle.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      soundToggle.textContent = soundEnabled ? '🔊' : '🔇';
-      soundToggle.setAttribute('aria-label', soundEnabled ? 'Disable Sound' : 'Enable Sound');
-    });
-    function playSound() {
-      const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
-      audio.play().catch(() => {});
-    }
-
-    document.querySelectorAll('.theme-button, .sound-toggle').forEach((btn, index) => {
-      btn.setAttribute('tabindex', '0');
-      btn.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    });
-    document.querySelector('.contact-button').addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openModal();
-      }
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== document.getElementById('userInput')) { e.preventDefault(); document.getElementById('userInput').focus(); }
+      if (e.key === 'Escape') { if (drawer.style.display === 'flex') drawer.style.display = 'none'; closeModal(); }
     });
   </script>
+  <script src="src/js/anmol.js"></script> <!-- Loads the AI chat connector -->
 </body>
 </html>
